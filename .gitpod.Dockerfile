@@ -1,25 +1,18 @@
-# Use Alpine Linux as base image
-FROM alpine:latest
+FROM alpine:3.18.2
 
-# Instalação de pacotes necessários
-RUN apk update && \
-    apk add --no-cache \
-        build-base \  # Equivalente ao build-essential no Alpine
-        git \
-        curl \
-        wget \
-        zip \
-        unzip \
-        python3 \
-        nodejs \
-        fish
+RUN apk add --no-cache \
+        # Needed for Gitpod compatibility:
+        git\
+        # git-lfs \ # uncomment if needed
+        bash \
+        sudo  \
+        docker \
+        iptables\
+        # Needed for VSCode compatibility:
+        libgcc \
+        gcompat \
+        libstdc++\
 
-# Definir o diretório de trabalho
-WORKDIR /workspace
-
-# Copiar e instalar requisitos Python
-COPY requirements.txt .
-RUN pip3 install -r requirements.txt
-
-# Copiar o restante do código-fonte
-COPY . .
+    # Add gitpod user
+    && echo '%gitpod ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/gitpod \
+    && addgroup -g 33333 gitpod && adduser -u 33333 -G gitpod -h /home/gitpod -s /bin/bash -D gitpod
