@@ -1,16 +1,18 @@
-FROM gitpod/workspace-full
+FROM ubuntu:latest
 
-# Instalação do Git
-RUN sudo apt update && sudo apt install -y git
+RUN apt-get update && apt-get install -y \
+  build-essential \
+  git \
+  curl \
+  wget \
+  zip \
+  unzip \
+  python3 \
+  nodejs
 
-# Aqui você pode adicionar outros comandos para configurar seu ambiente, como instalar dependências adicionais.
+WORKDIR /workspace
 
-FROM alpine:latest
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
 
-RUN apk update && \
-    apk add --no-cache \
-        curl \
-        unzip \
-        fish
-
-CMD ["fish"]
+COPY . .
