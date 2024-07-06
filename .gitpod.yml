@@ -1,9 +1,8 @@
-image:
-  file: Dockerfile
+build:
+  context: .
+  dockerfile: Dockerfile
 
-tasks:
-  - name: Install Dependencies
-    init: |
-      sudo apt update
-      sudo apt install -y curl
-    command: curl --version
+ports:
+  - name: "HTTP"
+    containerPort: 8080
+    hostPort: 8080
