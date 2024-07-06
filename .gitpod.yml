@@ -1,4 +1,9 @@
-build:
-  context: .
-  dockerfile: Dockerfile
-  
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - name: Install Dependencies
+    init: |
+      sudo apt update
+      sudo apt install -y curl
+    command: curl --version
