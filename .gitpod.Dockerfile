@@ -1,20 +1,25 @@
-# You can find the new timestamped tags here: https://hub.docker.com/r/gitpod/workspace-full/tags
-FROM gitpod/workspace-full:2022-05-08-14-31-53
+# Use Alpine Linux as base image
+FROM alpine:latest
 
-# Install custom tools, runtime, etc.
-RUN apt-get update && apt-get install -y \
-  build-essential \
-  git \
-  curl \
-  wget \
-  zip \
-  unzip \
-  python3 \
-  nodejs
+# Instalação de pacotes necessários
+RUN apk update && \
+    apk add --no-cache \
+        build-base \  # Equivalente ao build-essential no Alpine
+        git \
+        curl \
+        wget \
+        zip \
+        unzip \
+        python3 \
+        nodejs \
+        fish
 
+# Definir o diretório de trabalho
 WORKDIR /workspace
 
+# Copiar e instalar requisitos Python
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
+# Copiar o restante do código-fonte
 COPY . .
